@@ -6,7 +6,7 @@ import (
 
 	"github.com/golang/protobuf/proto"
 
-	"github.com/infobloxopen/atlas-app-toolkit/v2/query"
+	"github.com/lunchroum/atlas-app-toolkit/v2/query"
 )
 
 type LogicalOperatorConverter interface {

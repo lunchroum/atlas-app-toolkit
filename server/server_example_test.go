@@ -8,11 +8,11 @@ import (
 
 	"io/ioutil"
 
-	"github.com/infobloxopen/atlas-app-toolkit/v2/gateway"
-	"github.com/infobloxopen/atlas-app-toolkit/v2/health"
-	"github.com/infobloxopen/atlas-app-toolkit/v2/server"
-	"github.com/infobloxopen/atlas-app-toolkit/v2/server/testdata"
-	"github.com/infobloxopen/atlas-app-toolkit/v2/servertest"
+	"github.com/lunchroum/atlas-app-toolkit/v2/gateway"
+	"github.com/lunchroum/atlas-app-toolkit/v2/health"
+	"github.com/lunchroum/atlas-app-toolkit/v2/server"
+	server_test "github.com/lunchroum/atlas-app-toolkit/v2/server/testdata"
+	"github.com/lunchroum/atlas-app-toolkit/v2/servertest"
 	"golang.org/x/net/context"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	"google.golang.org/grpc"
