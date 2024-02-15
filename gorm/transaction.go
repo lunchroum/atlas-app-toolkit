@@ -7,7 +7,7 @@ import (
 	"reflect"
 	"sync"
 
-	"github.com/grpc-ecosystem/go-grpc-middleware"
+	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	"github.com/jinzhu/gorm"
 	"github.com/lunchroum/atlas-app-toolkit/v2/rpc/errdetails"
 	"google.golang.org/grpc"

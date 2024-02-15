@@ -2,6 +2,7 @@ package requestinfo
 
 import (
 	"context"
+
 	"github.com/lunchroum/atlas-app-toolkit/v2/gateway"
 )
 

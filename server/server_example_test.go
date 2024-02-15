@@ -11,7 +11,7 @@ import (
 	"github.com/lunchroum/atlas-app-toolkit/v2/gateway"
 	"github.com/lunchroum/atlas-app-toolkit/v2/health"
 	"github.com/lunchroum/atlas-app-toolkit/v2/server"
-	"github.com/lunchroum/atlas-app-toolkit/v2/server/testdata"
+	server_test "github.com/lunchroum/atlas-app-toolkit/v2/server/testdata"
 	"github.com/lunchroum/atlas-app-toolkit/v2/servertest"
 	"golang.org/x/net/context"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
