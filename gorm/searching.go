@@ -3,6 +3,8 @@ package gorm
 import (
 	"reflect"
 	"time"
+
+	"github.com/lunchroum/atlas-app-toolkit/v2/util"
 )
 
 // GetFullTextSearchDBMask ...
@@ -14,7 +16,7 @@ func GetFullTextSearchDBMask(object interface{}, fields []string, separator stri
 	}
 	fieldsSize := len(fields)
 	for i, fieldName := range fields {
-		fieldVal := objectVal.FieldByName(camelCase(fieldName))
+		fieldVal := objectVal.FieldByName(util.Camel(fieldName))
 		if !fieldVal.IsValid() {
 			continue
 		}

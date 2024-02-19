@@ -7,7 +7,7 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/DATA-DOG/go-sqlmock"
+	sqlmock "github.com/DATA-DOG/go-sqlmock"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 	"gorm.io/driver/postgres"
