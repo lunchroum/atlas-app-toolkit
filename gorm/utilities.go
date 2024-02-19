@@ -6,13 +6,13 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
+	"time"
+
+	"gorm.io/datatypes"
 
 	"github.com/golang/protobuf/proto"
-	jgorm "github.com/jinzhu/gorm"
-	"github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/jinzhu/inflection"
-
-	"time"
+	"gorm.io/gorm/schema"
 
 	"github.com/lunchroum/atlas-app-toolkit/v2/rpc/resource"
 	"github.com/lunchroum/atlas-app-toolkit/v2/util"
@@ -91,10 +91,21 @@ func IsJSONCondition(ctx context.Context, fieldPath []string, obj interface{}) b
 		return false
 	}
 
-	fInterface := reflect.Zero(indirectType(field.Type)).Interface()
-	switch fInterface.(type) {
-	case postgres.Jsonb:
-		return true
+	fType := field.Type
+
+	// we need to check each of indirect types as well
+	//
+	// this is required as if type alias is used it will be considered
+	// as an underlying type (which might be a slice/other indirect type)
+	// like for gorm.io/datatypes.JSON
+	for isIndirectType(fType) {
+		fInterface := reflect.Zero(fType).Interface()
+		switch fInterface.(type) {
+		case *datatypes.JSON:
+			return true
+		}
+
+		fType = fType.Elem()
 	}
 
 	return false
@@ -136,7 +147,7 @@ func tableName(t reflect.Type) string {
 	if tn, ok := table.(tableNamer); ok {
 		return tn.TableName()
 	}
-	return inflection.Plural(jgorm.ToDBName(t.Name()))
+	return inflection.Plural(ToDBName(t.Name()))
 }
 
 func columnName(sf *reflect.StructField) string {
@@ -144,7 +155,7 @@ func columnName(sf *reflect.StructField) string {
 	if ex {
 		return tagCol
 	}
-	return jgorm.ToDBName(sf.Name)
+	return ToDBName(sf.Name)
 }
 
 func gormTag(sf *reflect.StructField, tag string) (bool, string) {
@@ -179,13 +190,19 @@ type tableNamer interface {
 }
 
 func indirectType(t reflect.Type) reflect.Type {
-	for {
-		switch t.Kind() {
-		case reflect.Ptr, reflect.Slice, reflect.Array:
-			t = t.Elem()
-		default:
-			return t
-		}
+	for isIndirectType(t) {
+		t = t.Elem()
+	}
+
+	return t
+}
+
+func isIndirectType(t reflect.Type) bool {
+	switch t.Kind() {
+	case reflect.Ptr, reflect.Slice, reflect.Array:
+		return true
+	default:
+		return false
 	}
 }
 
@@ -226,12 +243,8 @@ func (e *EmptyFieldPathError) Error() string {
 	return fmt.Sprintf("Empty field path is not allowed")
 }
 
-func camelCase(v string) string {
-	sp := strings.Split(v, "_")
-	r := make([]string, len(sp))
-	for i, v := range sp {
-		r[i] = strings.ToUpper(v[:1]) + v[1:]
-	}
+var namingStrategy = schema.NamingStrategy{}
 
-	return strings.Join(r, "")
+func ToDBName(s string) string {
+	return namingStrategy.ColumnName("", s)
 }

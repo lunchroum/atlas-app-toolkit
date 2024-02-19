@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/stretchr/testify/assert"
+	"gorm.io/datatypes"
 
 	"github.com/lunchroum/atlas-app-toolkit/v2/query"
 	"github.com/lunchroum/atlas-app-toolkit/v2/rpc/resource"
@@ -19,7 +19,7 @@ type Entity struct {
 	NestedEntity NestedEntity
 	Id           string
 	Ref          *string
-	Tags         *postgres.Jsonb
+	Tags         *datatypes.JSON
 }
 
 type EntityProto struct {

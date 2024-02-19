@@ -7,7 +7,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 
 	"github.com/lunchroum/atlas-app-toolkit/v2/query"
 	"github.com/lunchroum/atlas-app-toolkit/v2/util"
@@ -155,7 +155,7 @@ func preload(db *gorm.DB, obj interface{}, assoc string) (*gorm.DB, error) {
 				return db.Preload(assoc), nil
 			} else {
 				return db.Preload(assoc, func(db *gorm.DB) *gorm.DB {
-					return db.Order(gorm.ToDBName(pos))
+					return db.Order(ToDBName(pos))
 				}), nil
 			}
 		}
